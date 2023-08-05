@@ -6,6 +6,8 @@ import random
 import threading
 import time
 
+global lowLimit,topLimit
+
 opt = webdriver.ChromeOptions()
 opt.add_experimental_option("detach",True)
 opt.add_argument(r"user-data-dir=C:\Users\agkam\AppData\Local\Google\Chrome\User Data\Profile")
@@ -78,6 +80,18 @@ def loopBronze():
             except:
                 pass
 
+def snipeSearch():
+    minPriceField = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[5]/div[2]/input')
+    maxPriceField = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[6]/div[2]/input')
+
+    minPriceField.send_keys(lowLimit.get())
+    maxPriceField.send_keys(topLimit.get())
+
+
+
+
+
+
 
 
 def main():
@@ -91,6 +105,15 @@ def main():
     ttk.Label(frame, text="FUT G").grid(column=0,row=0)
     ttk.Button(frame,text="Open Web App",command=openBrowser).grid(column=0,row=1)
     ttk.Button(frame, text="Unlimited Bronze Pack", command=loopBronze).grid(column=0, row=2)
+
+    ttk.Label(frame,text="Low Limit").grid(column=0,row=3)
+    lowLimit = ttk.Entry(frame).grid(column=0,row=4)
+    ttk.Label(frame,text="Top Limit").grid(column=0,row=5)
+    topLimit = ttk.Entry(frame).grid(column=0,row=6)
+    ttk.Button(frame, text="Snipe", command=snipeSearch).grid(column=0,row=7)
+
+
+
 
     root.mainloop()
 
