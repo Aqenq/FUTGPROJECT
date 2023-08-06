@@ -85,11 +85,21 @@ def snipeSearch():
     maxPriceField = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[6]/div[2]/input')
 
     minPriceField.send_keys(lowLimit.get())
-    maxPriceField.send_keys(topLimit.get())
+    maxPriceField.send_keys(firstTopLimit.get())
+
+    searchButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[2]/div/div[2]/button[2]')
+
+    searchButton.click()
+
+    try:
+        for i in range(20):
+            price = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[2]/div[3]/span[2]')
+            print(price)
 
 
 
-
+    except:
+        pass
 
 
 
@@ -107,10 +117,18 @@ def main():
     ttk.Button(frame, text="Unlimited Bronze Pack", command=loopBronze).grid(column=0, row=2)
 
     ttk.Label(frame,text="Low Limit").grid(column=0,row=3)
-    lowLimit = ttk.Entry(frame).grid(column=0,row=4)
-    ttk.Label(frame,text="Top Limit").grid(column=0,row=5)
-    topLimit = ttk.Entry(frame).grid(column=0,row=6)
-    ttk.Button(frame, text="Snipe", command=snipeSearch).grid(column=0,row=7)
+    global lowLimit
+    lowLimit = Entry(frame)
+    lowLimit.grid(column=0,row=4)
+    ttk.Label(frame,text="Start Top Limit").grid(column=0,row=5)
+    global firstTopLimit
+    firstTopLimit = Entry(frame)
+    firstTopLimit.grid(column=0, row=6)
+    ttk.Label(frame, text="Max Top Limit").grid(column=0, row=7)
+    global secondTopLimit
+    secondTopLimit = Entry(frame)
+    secondTopLimit.grid(column=0,row=8)
+    ttk.Button(frame, text="Snipe", command=snipeSearch).grid(column=0,row=9)
 
 
 
