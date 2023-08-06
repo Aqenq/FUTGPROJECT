@@ -92,13 +92,34 @@ def snipeSearch():
     searchButton.click()
 
     try:
-        for i in range(20):
+        lowestPrice = secondTopLimit.get()
+        #NOT WORKING PROPERLY
+        playerCount = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section[1]/div/ul').find_elements('xpath','*').size
+        for i in range(1,playerCount+1):
+
+            time.sleep(0.5)
             price = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[2]/div[3]/span[2]')
-            print(price)
+
+            priceInt = price.text.replace(',','')
+
+            playerRating = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[1]/div[1]/div[5]/div[2]/div[1]')
+
+            playerName = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[1]/div[2]')
+            print("Name: " + playerName.text + " Rating: " + playerRating.text + " Price: " + priceInt)
+
+            if priceInt < lowestPrice:
+                lowestPrice = priceInt
+                cheapestIndex = i
+
+        if lowestPrice < secondTopLimit.get() :
+            playerToBuy = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{cheapestIndex}]')
+            playerToBuy.click()
+
 
 
 
     except:
+        print("2")
         pass
 
 
