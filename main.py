@@ -81,48 +81,105 @@ def loopBronze():
                 pass
 
 def snipeSearch():
+
+    minPrice = int(lowLimit.get())
+    startPrice = int(firstTopLimit.get())
+    maxPrice = int(secondTopLimit.get())
+
+
     minPriceField = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[5]/div[2]/input')
     maxPriceField = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[6]/div[2]/input')
 
-    minPriceField.send_keys(lowLimit.get())
-    maxPriceField.send_keys(firstTopLimit.get())
+    minPriceField.clear()
+    maxPriceField.clear()
+
+    minPriceField.send_keys(minPrice)
+    maxPriceField.send_keys(startPrice)
 
     searchButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[2]/div/div[2]/button[2]')
 
     searchButton.click()
 
-    try:
-        lowestPrice = secondTopLimit.get()
-        #NOT WORKING PROPERLY
-        playerCount = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section[1]/div/ul').find_elements('xpath','*').size
-        for i in range(1,playerCount+1):
+    bought = True
+    lowestPrice = minPrice
 
-            time.sleep(0.5)
-            price = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[2]/div[3]/span[2]')
-
-            priceInt = price.text.replace(',','')
-
-            playerRating = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[1]/div[1]/div[5]/div[2]/div[1]')
-
-            playerName = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[1]/div[2]')
-            print("Name: " + playerName.text + " Rating: " + playerRating.text + " Price: " + priceInt)
-
-            if priceInt < lowestPrice:
-                lowestPrice = priceInt
-                cheapestIndex = i
-
-        if lowestPrice < secondTopLimit.get() :
-            playerToBuy = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{cheapestIndex}]')
-            playerToBuy.click()
+    currentPrice = int(startPrice)
+    while bought:
+        time.sleep(0.5)
+        try:
 
 
+            playerList = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section[1]/div/ul')
+
+            playerCount = playerList.find_elements('xpath','*')
+            print(len(playerCount))
+            if len(playerCount) != 0:
+                for i in range(1,len(playerCount)+1):
 
 
-    except:
-        print("2")
-        pass
+                    time.sleep(0.5)
+                    price = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[2]/div[3]/span[2]')
+
+                    priceInt = int(price.text.replace(',',''))
+
+                    playerRating = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[1]/div[1]/div[5]/div[2]/div[1]')
+
+                    playerName = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[1]/div[2]')
+                    print("Name: " + playerName.text + " Rating: " + playerRating.text + " Price: " + priceInt)
+                    print("for 2")
+
+                    if priceInt < lowestPrice:
+                        lowestPrice = priceInt
+                        cheapestIndex = i
+                    print("for 3")
+
+                if lowestPrice < maxPrice :
+                    playerToBuy = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{cheapestIndex}]')
+                    playerToBuy.click()
+                    buyNow = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[2]/button[2]')
+                    buyNow.click()
+                    confirmBuy = driver.find_element('xpath','/html/body/div[4]/section/div/div/button[1]')
+                    confirmBuy.click()
+                    bought = False
+                    print('Bought Player')
+                    print(playerRating + " " + playerName + " " + priceInt)
+
+            else:
+
+                time.sleep(0.5)
+                goBack = driver.find_element('xpath', '/html/body/main/section/section/div[1]/button[1]')
+                goBack.click()
+                if currentPrice > maxPrice:
+                        #increaseButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[6]/div[2]/button[2]')
+                        #increaseButton.click()
+                        currentPrice = startPrice
+                        minPrice += 501
+                        minPriceField.clear()
+                        minPriceField.send_keys(minPrice)
+                        print("price limit exceeded")
 
 
+                currentPrice = currentPrice + 501
+
+                time.sleep(0.5)
+
+                maxPriceField = driver.find_element('xpath',
+                                                    '/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[6]/div[2]/input')
+
+                maxPriceField.clear()
+
+
+                maxPriceField.send_keys(currentPrice)
+
+                time.sleep(0.5)
+
+
+                searchButton = driver.find_element('xpath',
+                                                   '/html/body/main/section/section/div[2]/div/div[2]/div/div[2]/button[2]')
+
+                searchButton.click()
+        except:
+            print("patladı")
 
 
 def main():
@@ -152,12 +209,7 @@ def main():
     ttk.Button(frame, text="Snipe", command=snipeSearch).grid(column=0,row=9)
 
 
-
-
     root.mainloop()
-
-
-
 
 
 main()
