@@ -81,7 +81,7 @@ def loopBronze():
                 pass
 
 def snipeSearch():
-
+    cheapestIndex = 0
     minPrice = int(lowLimit.get())
     startPrice = int(firstTopLimit.get())
     maxPrice = int(secondTopLimit.get())
@@ -101,12 +101,12 @@ def snipeSearch():
     searchButton.click()
 
     bought = True
-    lowestPrice = minPrice
+    lowestPrice = maxPrice
 
     currentPrice = int(startPrice)
     while bought:
-        time.sleep(0.5)
-        try:
+        time.sleep(0.2)
+        if 1==1:
 
 
             playerList = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section[1]/div/ul')
@@ -117,7 +117,7 @@ def snipeSearch():
                 for i in range(1,len(playerCount)+1):
 
 
-                    time.sleep(0.5)
+                    time.sleep(0.2)
                     price = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[2]/div[3]/span[2]')
 
                     priceInt = int(price.text.replace(',',''))
@@ -125,28 +125,30 @@ def snipeSearch():
                     playerRating = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[1]/div[1]/div[5]/div[2]/div[1]')
 
                     playerName = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[1]/div[2]')
-                    print("Name: " + playerName.text + " Rating: " + playerRating.text + " Price: " + priceInt)
+                    print("Name: " + playerName.text + " Rating: " + playerRating.text + " Price: " + str(priceInt))
                     print("for 2")
 
                     if priceInt < lowestPrice:
                         lowestPrice = priceInt
                         cheapestIndex = i
+                        print(cheapestIndex)
                     print("for 3")
 
-                if lowestPrice < maxPrice :
-                    playerToBuy = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{cheapestIndex}]')
-                    playerToBuy.click()
+                if lowestPrice < maxPrice:
+                    if cheapestIndex != 1:
+                        playerToBuy = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{cheapestIndex}]')
+                        playerToBuy.click()
                     buyNow = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[2]/button[2]')
                     buyNow.click()
                     confirmBuy = driver.find_element('xpath','/html/body/div[4]/section/div/div/button[1]')
                     confirmBuy.click()
                     bought = False
                     print('Bought Player')
-                    print(playerRating + " " + playerName + " " + priceInt)
+                    print(playerRating.text + " " + playerName.text + " " + str(priceInt))
 
             else:
 
-                time.sleep(0.5)
+                time.sleep(0.2)
                 goBack = driver.find_element('xpath', '/html/body/main/section/section/div[1]/button[1]')
                 goBack.click()
                 if currentPrice > maxPrice:
@@ -161,7 +163,7 @@ def snipeSearch():
 
                 currentPrice = currentPrice + 501
 
-                time.sleep(0.5)
+                time.sleep(0.2)
 
                 maxPriceField = driver.find_element('xpath',
                                                     '/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[6]/div[2]/input')
@@ -171,15 +173,15 @@ def snipeSearch():
 
                 maxPriceField.send_keys(currentPrice)
 
-                time.sleep(0.5)
+                time.sleep(0.2)
 
 
                 searchButton = driver.find_element('xpath',
                                                    '/html/body/main/section/section/div[2]/div/div[2]/div/div[2]/button[2]')
 
                 searchButton.click()
-        except:
-            print("patladı")
+        #except:
+         #   print("patladı")
 
 
 def main():
