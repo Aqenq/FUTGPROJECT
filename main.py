@@ -5,13 +5,18 @@ from selenium.webdriver.chrome import options
 import random
 import threading
 import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 global lowLimit,topLimit
+
+
 
 opt = webdriver.ChromeOptions()
 opt.add_experimental_option("detach",True)
 opt.add_argument(r"user-data-dir=C:\Users\agkam\AppData\Local\Google\Chrome\User Data\Profile")
 driver = webdriver.Chrome(options=opt)
+wait = WebDriverWait(driver, 10)
 def openBrowser():
 
     driver.get("https://www.ea.com/fifa/ultimate-team/web-app/")
@@ -205,45 +210,176 @@ def spamBronzeUpgrade():
 
     sbcHub = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[2]/div[2]')
     sbcList = sbcHub.find_elements('xpath','*')
+    while True:
+        for i in range(1,len(sbcList)):
+            time.sleep(0.2)
+            sbcName = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div[2]/div[2]/div[{i}]/div[1]/div[1]/h1")
+            if sbcName.text == "ULTIMATE BRONZE UPGRADE":
+                sbcDiv = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div[2]/div[2]/div[{i}]')
+                sbcDiv.click()
+                break
 
-    for i in range(1,len(sbcList)):
+        time.sleep(1)
+        useSquadBuilder = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div/section/div/button[2]')
+        useSquadBuilder.click()
+
+        qualityFilter = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[3]')
+        time.sleep(0.5)
+        if qualityFilter.text.lower() != "bronze":
+            print('not bronze !')
+            qualityFilter.click()
+            bronzeSelection = driver.find_element('xpath',
+                                                  '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[3]/div/ul/li[2]')
+            bronzeSelection.click()
+        else:
+            pass
+
+        rarityFilter = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[4]')
+        rarityFilter.click()
+
+        common = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[4]/div/ul/li[2]')
+        common.click()
+
+        buildButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[3]/button[2]')
+        buildButton.click()
+
+        playersInSBC = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]')
+        playerList = playersInSBC.find_elements('xpath','*')
+
+        for i in range(1,12):
+            print("x")
+            playerSlot = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]/div[{i}]/div[3]")
+            time.sleep(0.8)
+
+            if playerSlot.get_attribute("class") == "small player item ut-item-loading empty droppable":
+                playerSlot.click()
+                time.sleep(0.2)
+                addPlayerButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/button[3]')
+                addPlayerButton.click()
+                time.sleep(0.2)
+                clearPosition = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[5]/div/div/button')
+                clearPosition.click()
+                time.sleep(0.2)
+                playerQuality = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]')
+                playerQuality.click()
+                time.sleep(0.2)
+                bronzeQualityPlayer = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[2]')
+                bronzeQualityPlayer.click()
+                time.sleep(0.2)
+                playerRarity = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]')
+                playerRarity.click()
+                time.sleep(0.2)
+                playerRarityCommon = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]/div/ul/li[2]')
+                playerRarityCommon.click()
+                time.sleep(0.2)
+                searchClub = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[3]/button[2]')
+                searchClub.click()
+                time.sleep(0.5)
+                addPlayerToSBC = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[3]/ul/li[1]/button')
+                addPlayerToSBC.click()
+                time.sleep(0.2)
+
+        time.sleep(1)
+        submitButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div/div[2]/button[2]')
+        submitButton.click()
+        time.sleep(1)
+
+        claimReward = driver.find_element('xpath','/html/body/div[4]/div/footer/button')
+        claimReward.click()
         time.sleep(0.2)
-        sbcName = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div[2]/div[2]/div[{i}]/div[1]/div[1]/h1")
-        if sbcName.text == "ULTIMATE BRONZE UPGRADE":
-            sbcDiv = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div[2]/div[2]/div[{i}]')
-            sbcDiv.click()
-            break
 
-    time.sleep(1)
-    useSquadBuilder = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div/section/div/button[2]')
-    useSquadBuilder.click()
+        claimSecond = driver.find_element('xpath','/html/body/div[4]/div/footer/button')
+        claimSecond.click()
+        time.sleep(0.2)
 
-    qualityFilter = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[3]')
-    time.sleep(0.5)
-    if qualityFilter.text.lower() != "bronze":
-        print('not bronze !')
-        qualityFilter.click()
-        bronzeSelection = driver.find_element('xpath',
-                                              '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[3]/div/ul/li[2]')
-        bronzeSelection.click()
-    else:
+def listTransferList():
+    transfersButton= driver.find_element('xpath','/html/body/main/section/nav/button[3]')
+    transfersButton.click()
+    transferList = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div[3]')
+    transferList.click()
+    try:
+        relistAll = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div/section[2]/header/button')
+        time.sleep(0.3)
+        relistAll.click()
+        confirm = driver.find_element('xpath','/html/body/div[4]/section/div/div/button[2]')
+        confirm.click()
+    except:
         pass
 
-    rarityFilter = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[4]')
-    rarityFilter.click()
+    notListedPlayers = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div/section[3]/ul')
+    playersList = notListedPlayers.find_elements('xpath','*')
+    for i in range(1,len(playersList)+1):
+        time.sleep(1)
+        player = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div/div/section[3]/ul/li[1]")
+        player.click()
+        time.sleep(0.5)
+        comparePrice = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div/div/div[2]/div[3]/button[9]')
+        comparePrice.click()
+        time.sleep(0.2)
+        listings = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/section/div[2]/ul')
+        time.sleep(0.2)
+        listingsList = listings.find_elements('xpath','*')
+        time.sleep(1)
+        playerName = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div/div/section[3]/ul/li[{i}]/div/div[1]/div[2]")
+        print(playerName.text)
+        lowestPrice = int(driver.find_element('xpath',
+                                              f'/html/body/main/section/section/div[2]/div/div/section/div[2]/section/div[2]/ul/li[1]/div/div[2]/div[3]/span[2]').text.replace(
+            ',', ''))
+        for j in range(1,len(listingsList)+1):
 
-    common = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[4]/div/ul/li[2]')
-    common.click()
 
-    buildButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[3]/button[2]')
-    buildButton.click()
+            time.sleep(0.4)
+            listingPrice = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section/div[2]/section/div[2]/ul/li[{j}]/div/div[2]/div[3]/span[2]')
 
-    playersInSBC = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]')
-    playerList = playersInSBC.find_elements('xpath','*')
 
-    for i in range(1,len(playerList)):
-        playerInfo = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]/div[{i}]/div[3]")
-        print(playerInfo.get_attribute("class"))
+
+
+            if listingPrice.text.find(',') != -1:
+                currentPrice = int(listingPrice.text.replace(',', ''))
+
+            else:
+                currentPrice = int(listingPrice.text)
+
+
+
+            if currentPrice < lowestPrice:
+                lowestPrice = currentPrice
+
+        print("Lowest Price: " + str(lowestPrice))
+        goBack = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[1]/button')
+        goBack.click()
+        time.sleep(0.2)
+        listOnMarket = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/div[1]/button')
+        listOnMarket.click()
+        time.sleep(0.5)
+        buyNowField = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/div[2]/div[3]/div[2]/input')
+        time.sleep(0.1)
+
+        buyNowField.send_keys(0)
+        time.sleep(0.1)
+        buyNowField.send_keys(lowestPrice)
+        time.sleep(0.2)
+
+
+        startPriceField = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/div[2]/div[2]/div[2]/input')
+        time.sleep(0.1)
+
+        startPriceField.send_keys(0)
+        time.sleep(0.2)
+        startPriceField.send_keys(lowestPrice-200)
+        sendItToMarket = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/div[2]/button')
+        time.sleep(0.2)
+
+        lowerBuyNow = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/div[2]/div[3]/div[2]/button[1]')
+        lowerBuyNow.click()
+        time.sleep(0.2)
+        sendItToMarket.click()
+
+
+
+
+
+
 
 
 
@@ -282,6 +418,7 @@ def main():
 
     ttk.Button(frame, text="Unlimited Bronze Upgrade", command=spamBronzeUpgrade).grid(column=1,row=1)
 
+    ttk.Button(frame,text="List TL",command=listTransferList).grid(column=1,row=2)
 
 
     root.mainloop()
