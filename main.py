@@ -84,7 +84,7 @@ def snipeSearch():
     cheapestIndex = 0
     minPrice = int(lowLimit.get())
     startPrice = int(firstTopLimit.get())
-    maxPrice = int(secondTopLimit.get())
+    maxPrice = int(secondTopLimit.get()) + 1
     try:
         wantedRating = int(ratingSnipe.get())
     except:
@@ -120,7 +120,7 @@ def snipeSearch():
                 for i in range(1,len(playerCount)+1):
 
 
-                    time.sleep(0.1)
+                    time.sleep(0.2)
                     price = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section[1]/div/ul/li[{i}]/div/div[2]/div[3]/span[2]')
 
                     priceInt = int(price.text.replace(',',''))
@@ -156,7 +156,7 @@ def snipeSearch():
 
             else:
 
-                time.sleep(0.1)
+                time.sleep(0.2)
                 goBack = driver.find_element('xpath', '/html/body/main/section/section/div[1]/button[1]')
                 goBack.click()
                 if currentPrice > maxPrice:
@@ -171,7 +171,7 @@ def snipeSearch():
 
                 currentPrice = currentPrice + 501
 
-                time.sleep(0.1)
+                time.sleep(0.2)
 
                 maxPriceField = driver.find_element('xpath',
                                                     '/html/body/main/section/section/div[2]/div/div[2]/div/div[1]/div[2]/div[6]/div[2]/input')
@@ -192,14 +192,58 @@ def snipeSearch():
          #   print("patladı")
 
 
+def spamBronzeUpgrade():
+    sbcSection = driver.find_element('xpath','/html/body/main/section/nav/button[6]')
+    sbcSection.click()
+    time.sleep(0.2)
+    buttonGroup = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[1]/div')
+    buttonsList = buttonGroup.find_elements('xpath','*')
 
+    for button in buttonsList:
+        if button.text == "UPGRADES":
+            button.click()
 
+    sbcHub = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[2]/div[2]')
+    sbcList = sbcHub.find_elements('xpath','*')
 
+    for i in range(1,len(sbcList)):
+        time.sleep(0.2)
+        sbcName = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div[2]/div[2]/div[{i}]/div[1]/div[1]/h1")
+        if sbcName.text == "ULTIMATE BRONZE UPGRADE":
+            sbcDiv = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div[2]/div[2]/div[{i}]')
+            sbcDiv.click()
+            break
 
+    time.sleep(1)
+    useSquadBuilder = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div/section/div/button[2]')
+    useSquadBuilder.click()
 
+    qualityFilter = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[3]')
+    time.sleep(0.5)
+    if qualityFilter.text.lower() != "bronze":
+        print('not bronze !')
+        qualityFilter.click()
+        bronzeSelection = driver.find_element('xpath',
+                                              '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[3]/div/ul/li[2]')
+        bronzeSelection.click()
+    else:
+        pass
 
+    rarityFilter = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[4]')
+    rarityFilter.click()
 
+    common = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[4]/div/ul/li[2]')
+    common.click()
 
+    buildButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[3]/button[2]')
+    buildButton.click()
+
+    playersInSBC = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]')
+    playerList = playersInSBC.find_elements('xpath','*')
+
+    for i in range(1,len(playerList)):
+        playerInfo = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]/div[{i}]/div[3]")
+        print(playerInfo.get_attribute("class"))
 
 
 
@@ -210,7 +254,7 @@ def main():
     frame = ttk.Frame(root)
     frame.grid()
     root.title("FUT G")
-    root.geometry("200x500")
+    root.geometry("500x500")
 
     ttk.Label(frame, text="FUT G").grid(column=0,row=0)
     ttk.Button(frame,text="Open Web App",command=openBrowser).grid(column=0,row=1)
@@ -235,6 +279,10 @@ def main():
     ratingSnipe.grid(column=0,row=10)
 
     ttk.Button(frame, text="Snipe", command=snipeSearch).grid(column=0,row=11)
+
+    ttk.Button(frame, text="Unlimited Bronze Upgrade", command=spamBronzeUpgrade).grid(column=1,row=1)
+
+
 
     root.mainloop()
 
