@@ -393,9 +393,9 @@ def spamSBC():
             button.click()
 
     sbcNameFromTTK = sbcName.get()
-    wantedQuality = qualitySelect.option_get()
+    wantedQuality = qualitySelect.get()
     print(wantedQuality)
-    wantedRarity = raritySelect.option_get()
+    wantedRarity =raritySelect.get()
     print(wantedRarity)
 
     sbcHub = driver.find_element('xpath', '/html/body/main/section/section/div[2]/div/div[2]/div[2]')
@@ -443,6 +443,8 @@ def spamSBC():
         playersInSBC = driver.find_element('xpath', '/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]')
         playerList = playersInSBC.find_elements('xpath', '*')
 
+        time.sleep(0.5)
+
         for i in range(1, 12):
             print("x")
             playerSlot = driver.find_element('xpath',
@@ -464,17 +466,34 @@ def spamSBC():
                                                     '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]')
                 playerQuality.click()
                 time.sleep(0.2)
-                bronzeQualityPlayer = driver.find_element('xpath',
+
+                if wantedQuality == "bronze:":
+                    bronzeQualityPlayer = driver.find_element('xpath',
                                                           '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[2]')
-                bronzeQualityPlayer.click()
+                    bronzeQualityPlayer.click()
+                elif wantedQuality == "silver":
+                    silverQuality = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[3]')
+                    silverQuality.click()
+                elif wantedQuality == "gold":
+                    goldQuality = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[4]')
+                    goldQuality.click()
+
                 time.sleep(0.2)
+
+
                 playerRarity = driver.find_element('xpath',
                                                    '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]')
                 playerRarity.click()
                 time.sleep(0.2)
-                playerRarityCommon = driver.find_element('xpath',
-                                                         '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]/div/ul/li[2]')
-                playerRarityCommon.click()
+
+                if wantedRarity == "common":
+                    playerRarityCommon = driver.find_element('xpath',
+                                                             '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]/div/ul/li[2]')
+                    playerRarityCommon.click()
+                else:
+                    playerRarityRare = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]/div/ul/li[3]')
+                    playerRarityRare.click()
+
                 time.sleep(0.2)
                 searchClub = driver.find_element('xpath',
                                                  '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[3]/button[2]')
@@ -557,13 +576,17 @@ def main():
     variable.set("Select Quality")
 
     global qualitySelect
-    qualitySelect = OptionMenu(root,variable,"bronze","silver","gold","special")
+    qualitySelect = ttk.Combobox(root,textvariable=variable)
+    qualitySelect['values'] = ('bronze','silver','gold')
+    qualitySelect['state'] = 'readonly'
     qualitySelect.grid(column=1,row=7)
 
     variable2 = StringVar(root)
     variable2.set("Select Rarity")
     global raritySelect
-    raritySelect = OptionMenu(root,variable2,"Common","Rare")
+    raritySelect = ttk.Combobox(root,textvariable=variable2)
+    raritySelect['values'] = ('common','rare')
+    raritySelect['state'] = 'readonly'
     raritySelect.grid(column=1,row=8)
 
 
