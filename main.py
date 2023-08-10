@@ -419,22 +419,37 @@ def spamSBC():
         qualityFilter = driver.find_element('xpath',
                                             '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[3]')
         time.sleep(0.5)
-        if qualityFilter.text.lower() != "bronze":
-            print('not bronze !')
+
+
+        if qualityFilter.text.lower() != wantedQuality:
+
             qualityFilter.click()
-            bronzeSelection = driver.find_element('xpath',
-                                                  '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[3]/div/ul/li[2]')
-            bronzeSelection.click()
-        else:
-            pass
+            qualityGroup = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[3]/div/ul').find_elements('xpath','*')
+            for i in range(1,6):
+               quality = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[3]/div/ul/li[{i}]')
+               if quality.text.lower() == wantedQuality:
+                   quality.click()
+
+
+
 
         rarityFilter = driver.find_element('xpath',
                                            '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[4]')
         rarityFilter.click()
 
-        common = driver.find_element('xpath',
-                                     '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[4]/div/ul/li[2]')
-        common.click()
+        if rarityFilter.text.lower() != wantedRarity:
+
+            for i in range(1,4):
+                time.sleep(0.2)
+                rarity = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[4]/div/ul/li[{i}]')
+                if rarity.text.lower() == wantedRarity:
+                    rarity.click()
+                    break
+
+        else:
+            rarityFilter.click()
+
+
 
         buildButton = driver.find_element('xpath',
                                           '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[3]/button[2]')
@@ -449,7 +464,7 @@ def spamSBC():
             print("x")
             playerSlot = driver.find_element('xpath',
                                              f"/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]/div[{i}]/div[3]")
-            time.sleep(0.8)
+            time.sleep(0.3)
 
             if playerSlot.get_attribute("class") == "small player item ut-item-loading empty droppable":
                 playerSlot.click()
@@ -467,7 +482,7 @@ def spamSBC():
                 playerQuality.click()
                 time.sleep(0.2)
 
-                if wantedQuality == "bronze:":
+                if wantedQuality == "bronze":
                     bronzeQualityPlayer = driver.find_element('xpath',
                                                           '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[2]')
                     bronzeQualityPlayer.click()
@@ -529,10 +544,10 @@ def main():
 
     frame = ttk.Frame(root)
     frame.grid()
-    root.title("FUT G")
-    root.geometry("500x500")
+    root.title("FUT G 2")
+    root.geometry("700x700")
 
-    ttk.Label(frame, text="FUT G").grid(column=0,row=0)
+    ttk.Label(frame, text="FUT G 2").grid(column=0,row=0)
     ttk.Button(frame,text="Open Web App",command=openBrowser).grid(column=0,row=1)
     ttk.Button(frame, text="Unlimited Bronze Pack", command=loopBronze).grid(column=0, row=2)
 
@@ -570,8 +585,6 @@ def main():
 
     ttk.Label(frame,text="Quality").grid(column=1,row=6)
 
-
-
     variable = StringVar(root)
     variable.set("Select Quality")
 
@@ -581,13 +594,16 @@ def main():
     qualitySelect['state'] = 'readonly'
     qualitySelect.grid(column=1,row=7)
 
+    ttk.Label(frame,text="Rarity").grid(column=1,row=8)
+
+
     variable2 = StringVar(root)
     variable2.set("Select Rarity")
     global raritySelect
     raritySelect = ttk.Combobox(root,textvariable=variable2)
     raritySelect['values'] = ('common','rare')
     raritySelect['state'] = 'readonly'
-    raritySelect.grid(column=1,row=8)
+    raritySelect.grid(column=1,row=4)
 
 
     ttk.Button(frame,text="Spam SBC",command=spamSBC).grid(column=1,row=9)
