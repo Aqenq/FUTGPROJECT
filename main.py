@@ -11,7 +11,7 @@ import os
 
 global lowLimit,topLimit
 def getUDD():
-    f = open("venv/config.txt", "r")
+    f = open("config.txt", "r")
     str = f.read()
     str = str.replace("userdatadir = ",'')
     return str
@@ -27,7 +27,7 @@ def setUDD():
     userDataPath = Entry(frameUDD)
     userDataPath.grid(column=0,row=1)
     def applySettings():
-        f = open("venv/config.txt", "w")
+        f = open("config.txt", "w")
         f.write("userdatadir = " + userDataPath.get())
 
     ttk.Button(frameUDD,text="Apply",command=applySettings).grid(column=0,row=2)
