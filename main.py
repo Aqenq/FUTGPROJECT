@@ -7,21 +7,40 @@ import threading
 import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import os
 
 global lowLimit,topLimit
+def getUDD():
+    f = open("venv/config.txt", "r")
+    str = f.read()
+    str = str.replace("userdatadir = ",'')
+    return str
 
+def setUDD():
+    setUDDWindow = Tk()
+    frameUDD = ttk.Frame(setUDDWindow)
+    frameUDD.grid()
+    setUDDWindow.title("Set User Data Directory")
+    setUDDWindow.geometry("400x200")
+    global userDataPath
+    ttk.Label(frameUDD, text="Enter User Data Directory").grid(column=0, row=0)
+    userDataPath = Entry(frameUDD)
+    userDataPath.grid(column=0,row=1)
+    def applySettings():
+        f = open("venv/config.txt", "w")
+        f.write("userdatadir = " + userDataPath.get())
+
+    ttk.Button(frameUDD,text="Apply",command=applySettings).grid(column=0,row=2)
 
 
 opt = webdriver.ChromeOptions()
 opt.add_experimental_option("detach",True)
-opt.add_argument(r"user-data-dir=C:\Users\agkam\AppData\Local\Google\Chrome\User Data\Profile")
+opt.add_argument(f"user-data-dir={getUDD()}")
 driver = webdriver.Chrome(options=opt)
 wait = WebDriverWait(driver, 10)
 def openBrowser():
 
     driver.get("https://www.ea.com/fifa/ultimate-team/web-app/")
-
-
 
 
 
@@ -547,6 +566,16 @@ def main():
     root.title("FUT G 2")
     root.geometry("700x700")
 
+    menubar = Menu(root)
+    root.config(menu=menubar)
+
+    file_menu = Menu(menubar,tearoff=0)
+    file_menu.add_command(label="Set User Data Dir",command=setUDD)
+    menubar.add_cascade(
+        label="File",
+        menu=file_menu
+    )
+
     ttk.Label(frame, text="FUT G 2").grid(column=0,row=0)
     ttk.Button(frame,text="Open Web App",command=openBrowser).grid(column=0,row=1)
     ttk.Button(frame, text="Unlimited Bronze Pack", command=loopBronze).grid(column=0, row=2)
@@ -592,9 +621,9 @@ def main():
     qualitySelect = ttk.Combobox(root,textvariable=variable)
     qualitySelect['values'] = ('bronze','silver','gold')
     qualitySelect['state'] = 'readonly'
-    qualitySelect.grid(column=1,row=7)
+    qualitySelect.grid(row=7,column=1)
 
-    ttk.Label(frame,text="Rarity").grid(column=1,row=8)
+    ttk.Label(frame,text="Rarity").grid(column=1,row=8,)
 
 
     variable2 = StringVar(root)
@@ -603,11 +632,10 @@ def main():
     raritySelect = ttk.Combobox(root,textvariable=variable2)
     raritySelect['values'] = ('common','rare')
     raritySelect['state'] = 'readonly'
-    raritySelect.grid(column=1,row=4)
+    raritySelect.grid(column=1,row=9)
 
 
-    ttk.Button(frame,text="Spam SBC",command=spamSBC).grid(column=1,row=9)
-
+    ttk.Button(frame,text="Spam SBC",command=spamSBC).grid(column=1,row=10)
 
     root.mainloop()
 
