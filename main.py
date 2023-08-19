@@ -1,3 +1,4 @@
+import tkinter
 from tkinter import *
 from tkinter import ttk
 from selenium import webdriver
@@ -32,13 +33,15 @@ def setUDD():
 
     ttk.Button(frameUDD,text="Apply",command=applySettings).grid(column=0,row=2)
 
-
-opt = webdriver.ChromeOptions()
-opt.add_experimental_option("detach",True)
-opt.add_argument(f"user-data-dir={getUDD()}")
-driver = webdriver.Chrome(options=opt)
-wait = WebDriverWait(driver, 10)
 def openBrowser():
+    opt = webdriver.ChromeOptions()
+    opt.add_experimental_option("detach",True)
+    opt.add_argument(f"user-data-dir={getUDD()}")
+    global driver
+    driver = webdriver.Chrome(options=opt)
+    global wait
+    wait = WebDriverWait(driver, 10)
+def openWebApp():
 
     driver.get("https://www.ea.com/fifa/ultimate-team/web-app/")
 
@@ -66,6 +69,31 @@ def loopBronze():
 
             fourthPacks.click()
         time.sleep(randomWait)
+
+        if 1==1:
+
+            if driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[3]/div[1]').is_displayed() == True:
+                unassignedItems = driver.find_element('xpath',
+                                                      '/html/body/main/section/section/div[2]/div/div[3]/div[1]')
+                unassignedItems.click()
+                time.sleep(0.1)
+
+
+                if driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section[1]/section[1]/header/button').is_displayed() == True:
+                    storeInClub = driver.find_element('xpath',
+                                                      '/html/body/main/section/section/div[2]/div/div/section[1]/section[1]/header/button')
+                    storeInClub.click()
+
+
+
+                time.sleep(0.1)
+
+                confirmTL = driver.find_element('xpath','/html/body/div[4]/section/div/div/button[1]')
+                time.sleep(0.1)
+                confirmTL.click()
+                goBack = driver.find_element('xpath','/html/body/main/section/section/div[1]/button[1]')
+                goBack.click()
+
         open750Coins = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[3]/div[2]/div[3]/button')
         open750Coins.click()
         confirmButton = driver.find_element('xpath','/html/body/div[4]/section/div/div/button[1]')
@@ -413,9 +441,11 @@ def spamSBC():
 
     sbcNameFromTTK = sbcName.get()
     wantedQuality = qualitySelect.get()
-    print(wantedQuality)
     wantedRarity =raritySelect.get()
-    print(wantedRarity)
+    onlyUntradeable = untradeOnly.get()
+    excludeActive = excludeActiveSquad.get()
+
+
 
     sbcHub = driver.find_element('xpath', '/html/body/main/section/section/div[2]/div/div[2]/div[2]')
     sbcList = sbcHub.find_elements('xpath', '*')
@@ -434,6 +464,25 @@ def spamSBC():
         useSquadBuilder = driver.find_element('xpath',
                                               '/html/body/main/section/section/div[2]/div/div/section/div/section/div/button[2]')
         useSquadBuilder.click()
+
+        time.sleep(0.5)
+
+        if onlyUntradeable == 1:
+            onlyUntradeSwitch = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[1]/div/div[1]/div[2]/div/div[1]')
+            onlyUntradeSwitch.click()
+        time.sleep(0.5)
+
+        if excludeActive ==1:
+            excludeActiveSwitch = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[1]/div/div[1]/div[3]/div/div[1]')
+            excludeActiveSwitch.click()
+
+        ratingSelectionBox = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[1]/div/div[2]')
+        ratingSelectionBox.click()
+        time.sleep(0.3)
+        ratingLowToHigh = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[1]/div/div[2]/div/ul/li[4]')
+        ratingLowToHigh.click()
+        time.sleep(0.2)
+
 
         qualityFilter = driver.find_element('xpath',
                                             '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[3]')
@@ -563,8 +612,8 @@ def main():
 
     frame = ttk.Frame(root)
     frame.grid()
-    root.title("FUT G 2")
-    root.geometry("700x700")
+    root.title("FUT G")
+    root.geometry("300x350")
 
     menubar = Menu(root)
     root.config(menu=menubar)
@@ -576,66 +625,78 @@ def main():
         menu=file_menu
     )
 
-    ttk.Label(frame, text="FUT G 2").grid(column=0,row=0)
-    ttk.Button(frame,text="Open Web App",command=openBrowser).grid(column=0,row=1)
-    ttk.Button(frame, text="Unlimited Bronze Pack", command=loopBronze).grid(column=0, row=2)
+    ttk.Label(frame, text="FUT G").grid(column=0,row=0)
+    ttk.Button(frame,text="Open Browser",command=openBrowser).grid(column=0,row=1)
 
-    ttk.Label(frame,text="Low Limit").grid(column=0,row=3)
+    ttk.Button(frame,text="Open Web App",command=openWebApp).grid(column=0,row=2)
+
+    ttk.Label(frame,text="Low Limit").grid(column=0,row=4)
     global lowLimit
     lowLimit = Entry(frame)
-    lowLimit.grid(column=0,row=4)
-    ttk.Label(frame,text="Start Top Limit").grid(column=0,row=5)
+    lowLimit.grid(column=0,row=5)
+    ttk.Label(frame,text="Start Top Limit").grid(column=0,row=6)
     global firstTopLimit
     firstTopLimit = Entry(frame)
-    firstTopLimit.grid(column=0, row=6)
-    ttk.Label(frame, text="Max Top Limit").grid(column=0, row=7)
+    firstTopLimit.grid(column=0, row=7)
+    ttk.Label(frame, text="Max Top Limit").grid(column=0, row=8)
     global secondTopLimit
     secondTopLimit = Entry(frame)
-    secondTopLimit.grid(column=0,row=8)
+    secondTopLimit.grid(column=0,row=9)
 
     global ratingSnipe
-    ttk.Label(frame, text="Rating (Optional)").grid(column=0, row=9)
+    ttk.Label(frame, text="Rating (Optional)").grid(column=0, row=10)
     ratingSnipe = Entry(frame)
-    ratingSnipe.grid(column=0,row=10)
+    ratingSnipe.grid(column=0,row=11)
 
-    ttk.Button(frame, text="Snipe", command=snipeSearch).grid(column=0,row=11)
+    ttk.Button(frame, text="Snipe", command=snipeSearch).grid(column=0,row=12)
+    ttk.Button(frame, text="Unlimited Bronze Pack", command=loopBronze).grid(column=1, row=1)
 
-    ttk.Button(frame, text="Unlimited Bronze Upgrade", command=spamBronzeUpgrade).grid(column=1,row=1)
 
-    ttk.Button(frame,text="List TL",command=listTransferList).grid(column=1,row=2)
+    ttk.Button(frame, text="Unlimited Bronze Upgrade", command=spamBronzeUpgrade).grid(column=1,row=2)
 
-    ttk.Label(frame,text="Spam SBC").grid(column=1,row=3)
+    ttk.Button(frame,text="List TL",command=listTransferList).grid(column=1,row=3)
 
-    ttk.Label(frame,text="SBC Name").grid(column=1,row=4)
+    ttk.Label(frame,text="Spam SBC").grid(column=1,row=4)
+
+    ttk.Label(frame,text="SBC Name").grid(column=1,row=5)
 
     global sbcName
     sbcName = Entry(frame)
-    sbcName.grid(column=1,row=5)
+    sbcName.grid(column=1,row=6)
 
-    ttk.Label(frame,text="Quality").grid(column=1,row=6)
+    ttk.Label(frame,text="Quality").grid(column=1,row=7)
 
     variable = StringVar(root)
     variable.set("Select Quality")
 
     global qualitySelect
-    qualitySelect = ttk.Combobox(root,textvariable=variable)
+    qualitySelect = ttk.Combobox(frame,textvariable=variable)
     qualitySelect['values'] = ('bronze','silver','gold')
     qualitySelect['state'] = 'readonly'
-    qualitySelect.grid(row=7,column=1)
+    qualitySelect.grid(row=8,column=1)
 
-    ttk.Label(frame,text="Rarity").grid(column=1,row=8,)
+    ttk.Label(frame,text="Rarity").grid(column=1,row=9)
 
 
     variable2 = StringVar(root)
     variable2.set("Select Rarity")
     global raritySelect
-    raritySelect = ttk.Combobox(root,textvariable=variable2)
+    raritySelect = ttk.Combobox(frame,textvariable=variable2)
     raritySelect['values'] = ('common','rare')
     raritySelect['state'] = 'readonly'
-    raritySelect.grid(column=1,row=9)
+    raritySelect.grid(column=1,row=10)
 
+    global untradeOnly
+    untradeOnly = IntVar()
+    ttk.Checkbutton(frame, text='Untradeable Only', variable=untradeOnly, onvalue=1, offvalue=0).grid(column=1, row=11)
 
-    ttk.Button(frame,text="Spam SBC",command=spamSBC).grid(column=1,row=10)
+    global excludeActiveSquad
+    excludeActiveSquad = IntVar()
+    ttk.Checkbutton(frame, text='Exclude Active Squad', variable=excludeActiveSquad, onvalue=1, offvalue=0).grid(
+        column=1, row=12)
+
+    ttk.Button(frame,text="Spam SBC",command=spamSBC).grid(column=1,row=13)
+
 
     root.mainloop()
 
