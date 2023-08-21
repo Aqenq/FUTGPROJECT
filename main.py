@@ -253,17 +253,17 @@ def spamBronzeUpgrade():
     buttonGroup = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[1]/div')
     buttonsList = buttonGroup.find_elements('xpath','*')
 
-    for button in buttonsList:
-        if button.text == "UPGRADES":
-            button.click()
+    #for button in buttonsList:
+     #   if button.text == "UPGRADES":
+      #      button.click()
 
     sbcHub = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[2]/div[2]')
     sbcList = sbcHub.find_elements('xpath','*')
     while True:
         for i in range(1,len(sbcList)):
-            time.sleep(0.2)
+
             sbcName = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div[2]/div[2]/div[{i}]/div[1]/div[1]/h1")
-            if sbcName.text == "ULTIMATE BRONZE UPGRADE":
+            if sbcName.text == "BRONZE UPGRADE":
                 sbcDiv = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div[2]/div[2]/div[{i}]')
                 sbcDiv.click()
                 break
@@ -298,37 +298,40 @@ def spamBronzeUpgrade():
         for i in range(1,12):
             print("x")
             playerSlot = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]/div[{i}]/div[3]")
-            time.sleep(0.8)
 
-            if playerSlot.get_attribute("class") == "small player item ut-item-loading empty droppable":
-                playerSlot.click()
-                time.sleep(0.2)
-                addPlayerButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/button[3]')
-                addPlayerButton.click()
-                time.sleep(0.2)
-                clearPosition = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[5]/div/div/button')
-                clearPosition.click()
-                time.sleep(0.2)
-                playerQuality = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]')
-                playerQuality.click()
-                time.sleep(0.2)
-                bronzeQualityPlayer = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[2]')
-                bronzeQualityPlayer.click()
-                time.sleep(0.2)
-                playerRarity = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]')
-                playerRarity.click()
-                time.sleep(0.2)
-                playerRarityCommon = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]/div/ul/li[2]')
-                playerRarityCommon.click()
-                time.sleep(0.2)
-                searchClub = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[3]/button[2]')
-                searchClub.click()
-                time.sleep(0.5)
-                addPlayerToSBC = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[3]/ul/li[1]/button')
-                addPlayerToSBC.click()
-                time.sleep(0.2)
+            time.sleep(0.2)
+            try:
+                if playerSlot.get_attribute("class") == "small player item ut-item-loading empty droppable":
+                    playerSlot.click()
+                    time.sleep(0.2)
+                    addPlayerButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/button[3]')
+                    addPlayerButton.click()
+                    time.sleep(0.2)
+                    clearPosition = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[5]/div/div/button')
+                    clearPosition.click()
+                    time.sleep(0.2)
+                    playerQuality = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]')
+                    playerQuality.click()
+                    time.sleep(0.2)
+                    bronzeQualityPlayer = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[2]')
+                    bronzeQualityPlayer.click()
+                    time.sleep(0.2)
+                    playerRarity = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]')
+                    playerRarity.click()
+                    time.sleep(0.2)
+                    playerRarityCommon = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]/div/ul/li[2]')
+                    playerRarityCommon.click()
+                    time.sleep(0.2)
+                    searchClub = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[3]/button[2]')
+                    searchClub.click()
+                    time.sleep(0.5)
+                    addPlayerToSBC = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[3]/ul/li[1]/button')
+                    addPlayerToSBC.click()
+                    time.sleep(0.2)
+            except:
+                pass
 
-        time.sleep(1)
+        time.sleep(2)
         submitButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div/div[2]/button[2]')
         submitButton.click()
         time.sleep(1)
@@ -527,65 +530,67 @@ def spamSBC():
         playerList = playersInSBC.find_elements('xpath', '*')
 
         time.sleep(0.5)
+        try:
+            for i in range(1, 12):
+                print("x")
+                playerSlot = driver.find_element('xpath',
+                                                 f"/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]/div[{i}]/div[3]")
+                time.sleep(0.3)
 
-        for i in range(1, 12):
-            print("x")
-            playerSlot = driver.find_element('xpath',
-                                             f"/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]/div[{i}]/div[3]")
-            time.sleep(0.3)
+                if playerSlot.get_attribute("class") == "small player item ut-item-loading empty droppable":
+                    playerSlot.click()
+                    time.sleep(0.2)
+                    addPlayerButton = driver.find_element('xpath',
+                                                          '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/button[3]')
+                    addPlayerButton.click()
+                    time.sleep(0.2)
+                    clearPosition = driver.find_element('xpath',
+                                                        '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[5]/div/div/button')
+                    clearPosition.click()
+                    time.sleep(0.2)
+                    playerQuality = driver.find_element('xpath',
+                                                        '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]')
+                    playerQuality.click()
+                    time.sleep(0.2)
 
-            if playerSlot.get_attribute("class") == "small player item ut-item-loading empty droppable":
-                playerSlot.click()
-                time.sleep(0.2)
-                addPlayerButton = driver.find_element('xpath',
-                                                      '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/button[3]')
-                addPlayerButton.click()
-                time.sleep(0.2)
-                clearPosition = driver.find_element('xpath',
-                                                    '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[5]/div/div/button')
-                clearPosition.click()
-                time.sleep(0.2)
-                playerQuality = driver.find_element('xpath',
-                                                    '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]')
-                playerQuality.click()
-                time.sleep(0.2)
+                    if wantedQuality == "bronze":
+                        bronzeQualityPlayer = driver.find_element('xpath',
+                                                              '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[2]')
+                        bronzeQualityPlayer.click()
+                    elif wantedQuality == "silver":
+                        silverQuality = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[3]')
+                        silverQuality.click()
+                    elif wantedQuality == "gold":
+                        goldQuality = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[4]')
+                        goldQuality.click()
 
-                if wantedQuality == "bronze":
-                    bronzeQualityPlayer = driver.find_element('xpath',
-                                                          '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[2]')
-                    bronzeQualityPlayer.click()
-                elif wantedQuality == "silver":
-                    silverQuality = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[3]')
-                    silverQuality.click()
-                elif wantedQuality == "gold":
-                    goldQuality = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[3]/div/ul/li[4]')
-                    goldQuality.click()
-
-                time.sleep(0.2)
+                    time.sleep(0.2)
 
 
-                playerRarity = driver.find_element('xpath',
-                                                   '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]')
-                playerRarity.click()
-                time.sleep(0.2)
+                    playerRarity = driver.find_element('xpath',
+                                                       '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]')
+                    playerRarity.click()
+                    time.sleep(0.2)
 
-                if wantedRarity == "common":
-                    playerRarityCommon = driver.find_element('xpath',
-                                                             '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]/div/ul/li[2]')
-                    playerRarityCommon.click()
-                else:
-                    playerRarityRare = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]/div/ul/li[3]')
-                    playerRarityRare.click()
+                    if wantedRarity == "common":
+                        playerRarityCommon = driver.find_element('xpath',
+                                                                 '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]/div/ul/li[2]')
+                        playerRarityCommon.click()
+                    else:
+                        playerRarityRare = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[2]/div[2]/div[4]/div/ul/li[3]')
+                        playerRarityRare.click()
 
-                time.sleep(0.2)
-                searchClub = driver.find_element('xpath',
-                                                 '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[3]/button[2]')
-                searchClub.click()
-                time.sleep(0.5)
-                addPlayerToSBC = driver.find_element('xpath',
-                                                     '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[3]/ul/li[1]/button')
-                addPlayerToSBC.click()
-                time.sleep(0.2)
+                    time.sleep(0.2)
+                    searchClub = driver.find_element('xpath',
+                                                     '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div/div/div[3]/button[2]')
+                    searchClub.click()
+                    time.sleep(0.5)
+                    addPlayerToSBC = driver.find_element('xpath',
+                                                         '/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[3]/ul/li[1]/button')
+                    addPlayerToSBC.click()
+                    time.sleep(0.2)
+        except:
+            pass
 
         time.sleep(1)
         submitButton = driver.find_element('xpath',
