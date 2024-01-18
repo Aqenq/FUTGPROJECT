@@ -50,56 +50,77 @@ def openWebApp():
 
 def loopBronze():
     while True:
-        randomWait = random.randint(5,15)/10
+        randomWait = 0.8
 
         storeButton = driver.find_element('xpath','/html/body/main/section/nav/button[4]')
         storeButton.click()
         time.sleep(randomWait)
-        packsButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div[2]')
+        packsButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div[3]')
         packsButton.click()
         time.sleep(randomWait)
-
-        thirdPacks = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[1]/div/button[3]')
-
-        if thirdPacks.text == "CLASSIC PACKS":
-            thirdPacks.click()
+        secondPacks = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[1]/div/button[2]')
+        if secondPacks.text == "Classic Packs":
+            secondPacks.click()
         else:
-            fourthPacks = driver.find_element('xpath',
-                                              '/html/body/main/section/section/div[2]/div/div[1]/div/button[4]')
+            thirdPacks = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[1]/div/button[3]')
 
-            fourthPacks.click()
+            if thirdPacks.text == "Classic Packs":
+                thirdPacks.click()
+            else :
+                fourthPacks = driver.find_element('xpath',
+                                                  '/html/body/main/section/section/div[2]/div/div[1]/div/button[4]')
+                if fourthPacks.text == "Classic Packs":
+                    fourthPacks.click()
+                else:
+                    fifthPacks = driver.find_element('xpath',
+                                                  '/html/body/main/section/section/div[2]/div/div[1]/div/button[5]')
+                    if fifthPacks.text == "Classic Packs":
+                        fifthPacks.click()
+
         time.sleep(randomWait)
 
-        if 1==1:
 
-            if driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[3]/div[1]').is_displayed() == True:
-                unassignedItems = driver.find_element('xpath',
+
+        if driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[3]/div[1]').is_displayed() == True:
+            unassignedItems = driver.find_element('xpath',
                                                       '/html/body/main/section/section/div[2]/div/div[3]/div[1]')
-                unassignedItems.click()
-                time.sleep(0.1)
+            unassignedItems.click()
+            time.sleep(0.1)
 
-
+            try:
                 if driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section[1]/section[1]/header/button').is_displayed() == True:
                     storeInClub = driver.find_element('xpath',
-                                                      '/html/body/main/section/section/div[2]/div/div/section[1]/section[1]/header/button')
+                                                          '/html/body/main/section/section/div[2]/div/div/section[1]/section[1]/header/button')
                     storeInClub.click()
+                    time.sleep(0.1)
+
+                    confirmTL = driver.find_element('xpath', '/html/body/div[4]/section/div/div/button[1]')
+                    time.sleep(0.1)
+                    confirmTL.click()
+                    goBack = driver.find_element('xpath', '/html/body/main/section/section/div[1]/button[1]')
+                    goBack.click()
+            except:
+                pass
 
 
 
-                time.sleep(0.1)
 
-                confirmTL = driver.find_element('xpath','/html/body/div[4]/section/div/div/button[1]')
-                time.sleep(0.1)
-                confirmTL.click()
-                goBack = driver.find_element('xpath','/html/body/main/section/section/div[1]/button[1]')
-                goBack.click()
-
-        open750Coins = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[3]/div[2]/div[3]/button')
+        open750Coins = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div[3]/div[1]/div[3]/button')
         open750Coins.click()
         confirmButton = driver.find_element('xpath','/html/body/div[4]/section/div/div/button[1]')
         confirmButton.click()
         ##THE PACK IS OPENED##
-        time.sleep(8)
+        ## /html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[1]/div/div[2]/div/div/div[1]/div/div[8]/div[3]/span[1] lig yazan yer
+        time.sleep(7)
+        try:
+            dupesButton = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section[1]/section[2]/header/button[2]')
+            dupesButton.click()
+            sendConf = driver.find_element('xpath','/html/body/div[4]/div/div/button[1]')
+            sendConf.click()
+            ok = driver.find_element('xpath','/html/body/div[4]/section/div/div/button[1]')
+            ok.click()
+        except:
+            pass
 
         for i in range(12):
 
@@ -112,27 +133,33 @@ def loopBronze():
                 pass
 
             try:
-                playerBioField = driver.find_element("xpath",'/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[3]/button[1]')
+                #playerBioField = driver.find_element("xpath",'/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[3]/button[1]')
+
+                sendToActive = driver.find_element("xpath","/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[3]/button[7]")
 
 
-                if playerBioField.is_displayed():
-                    sendToClub = driver.find_element("xpath",
-                                                     "/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[3]/button[6]")
-                    if sendToClub.text !="Swap Duplicate Item from Club" :
+                sendToClub = driver.find_element("xpath","/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[3]/button[6]")
+                if sendToClub.text !="Swap Duplicate Item from Club" and sendToActive.is_displayed():
                         sendToClub.click()
-                    else:
-                        sendToTransfer = driver.find_element("xpath","/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[3]/button[8]")
-                        sendToTransfer.click()
 
-                else:
+
+                elif not(sendToActive.is_displayed()):
                     quickSell = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[3]/button[10]')
                     quickSell.click()
 
-                    qsConfirm = driver.find_element("xpath","/html/body/div[4]/section/div/div/button[1]")
+                    qsConfirm = driver.find_element("xpath", "/html/body/div[4]/section/div/div/button[1]")
                     qsConfirm.click()
-                time.sleep(randomWait)
+
+                else:
+                    sendToTransfer = driver.find_element("xpath",
+                                                         "/html/body/main/section/section/div[2]/div/div/section[2]/div/div/div[2]/div[3]/button[8]")
+                    sendToTransfer.click()
+
             except:
-                pass
+                goBack = driver.find_element('xpath', '/html/body/main/section/section/div[1]/button[1]')
+
+                goBack.click()
+            time.sleep(randomWait)
 
 def snipeSearch():
     cheapestIndex = 0
@@ -350,6 +377,11 @@ def listTransferList():
     transferList = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div[3]')
     transferList.click()
     try:
+        clearSold = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div/section[1]/header/button[1]')
+        clearSold.click()
+    except:
+        pass
+    try:
         relistAll = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div/section[2]/header/button')
         time.sleep(0.3)
         relistAll.click()
@@ -358,25 +390,41 @@ def listTransferList():
     except:
         pass
 
-    notListedPlayers = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/div/section[3]/ul')
-    playersList = notListedPlayers.find_elements('xpath','*')
+    notListedPlayers = driver.find_element('xpath',
+                                           '/html/body/main/section/section/div[2]/div/div/div/section[3]/ul')
+    playersList = notListedPlayers.find_elements('xpath', '*')
     for i in range(1,len(playersList)+1):
-        time.sleep(1)
-        player = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div/div/section[3]/ul/li[1]")
-        player.click()
-        time.sleep(0.5)
-        comparePrice = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div/div/div[2]/div[3]/button[9]')
-        comparePrice.click()
-        time.sleep(0.2)
-        listings = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/section/div[2]/ul')
-        time.sleep(0.2)
-        listingsList = listings.find_elements('xpath','*')
-        time.sleep(1)
-        playerName = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div/div/section[3]/ul/li[{i}]/div/div[1]/div[2]")
-        print(playerName.text)
-        lowestPrice = int(driver.find_element('xpath',
-                                              f'/html/body/main/section/section/div[2]/div/div/section/div[2]/section/div[2]/ul/li[1]/div/div[2]/div[3]/span[2]').text.replace(
-            ',', ''))
+        try:
+            clearSold = driver.find_element('xpath',
+                                            '/html/body/main/section/section/div[2]/div/div/div/section[1]/header/button[1]')
+            clearSold.click()
+        except:
+            print(".")
+
+        try:
+            time.sleep(0.5)
+            player = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div/div/section[3]/ul/li[1]")
+
+            time.sleep(0.2)
+            player.click()
+            time.sleep(0.2)
+
+            comparePrice = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div/div/div[2]/div[3]/button[9]')
+            comparePrice.click()
+            time.sleep(0.2)
+            listings = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/section/div[2]/ul')
+            time.sleep(0.2)
+            listingsList = listings.find_elements('xpath','*')
+            time.sleep(0.6)
+            playerName = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div/div/section[3]/ul/li[{i}]/div/div[1]/div[2]")
+            print(playerName.text)
+            lowestPrice = int(driver.find_element('xpath',
+                                                  f'/html/body/main/section/section/div[2]/div/div/section/div[2]/section/div[2]/ul/li[1]/div/div[2]/div[3]/span[2]').text.replace(
+                ',', ''))
+            if lowestPrice == 200:
+                break
+        except:
+            continue
         for j in range(1,len(listingsList)+1):
 
 
@@ -384,7 +432,8 @@ def listTransferList():
             listingPrice = driver.find_element('xpath',f'/html/body/main/section/section/div[2]/div/div/section/div[2]/section/div[2]/ul/li[{j}]/div/div[2]/div[3]/span[2]')
 
 
-
+            if lowestPrice <=250:
+                break
 
             if listingPrice.text.find(',') != -1:
                 currentPrice = int(listingPrice.text.replace(',', ''))
@@ -400,25 +449,28 @@ def listTransferList():
         print("Lowest Price: " + str(lowestPrice))
         goBack = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[1]/button')
         goBack.click()
-        time.sleep(0.2)
+        time.sleep(0.3)
         listOnMarket = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/div[1]/button')
         listOnMarket.click()
         time.sleep(0.5)
         buyNowField = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/div[2]/div[3]/div[2]/input')
-        time.sleep(0.1)
+        time.sleep(0.2)
 
         buyNowField.send_keys(0)
-        time.sleep(0.1)
+        time.sleep(0.2)
         buyNowField.send_keys(lowestPrice)
         time.sleep(0.2)
 
 
         startPriceField = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/div[2]/div[2]/div[2]/input')
-        time.sleep(0.1)
+        time.sleep(0.2)
 
         startPriceField.send_keys(0)
         time.sleep(0.2)
-        startPriceField.send_keys(lowestPrice-200)
+        if lowestPrice-100 < 200:
+            startPriceField.send_keys(200)
+        else:
+            startPriceField.send_keys(lowestPrice-100)
         sendItToMarket = driver.find_element('xpath','/html/body/main/section/section/div[2]/div/div/section/div[2]/div/div[2]/div[2]/div[2]/button')
         time.sleep(0.2)
 
@@ -439,7 +491,7 @@ def spamSBC():
 
 
     for button in buttonsList:
-        if button.text == "UPGRADES":
+        if button.text == "Upgrades":
             button.click()
 
     sbcNameFromTTK = sbcName.get()
@@ -533,11 +585,10 @@ def spamSBC():
         try:
             for i in range(1, 12):
                 print("x")
-                playerSlot = driver.find_element('xpath',
-                                                 f"/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]/div[{i}]/div[3]")
+                playerSlot = driver.find_element('xpath',f"/html/body/main/section/section/div[2]/div/div/div/div[2]/div[1]/div[{i}]/div[3]")
                 time.sleep(0.3)
 
-                if playerSlot.get_attribute("class") == "small player item ut-item-loading empty droppable":
+                if playerSlot.get_attribute("class") == "small player item ut-item-loading empty has-chemistry-breakdown droppable":
                     playerSlot.click()
                     time.sleep(0.2)
                     addPlayerButton = driver.find_element('xpath',
