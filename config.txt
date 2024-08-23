@@ -1,1 +1,1 @@
-userdatadir = C:\Users\agkam\AppData\Local\Google\Chrome\User Data\Profile
+userdatadir = PATH TO YOUR USER DATA DIR
