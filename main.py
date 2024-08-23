@@ -43,7 +43,8 @@ def openBrowser():
     wait = WebDriverWait(driver, 10)
 def openWebApp():
 
-    driver.get("https://www.ea.com/fifa/ultimate-team/web-app/")
+    //LINK TO THE GAMES SITE
+    driver.get("")
 
 
 
